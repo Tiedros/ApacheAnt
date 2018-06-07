@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <project name="Ant-Test" default="main" basedir=".">
+	
+	<echo>build.xml starts running</echo> 
     <!-- Sets variables which can later be used. -->
     <!-- The value of a property is accessed via ${} -->
     <property name="src.dir" location="src" />
@@ -9,6 +11,7 @@
 
     <!-- Deletes the existing build, docs and dist directory-->
     <target name="clean">
+    	<echo message="Inside clean"/>
         <delete dir="${build.dir}" />
         <delete dir="${docs.dir}" />
         <delete dir="${dist.dir}" />
@@ -16,6 +19,7 @@
 
     <!-- Creates the  build, docs and dist directory-->
     <target name="makedir">
+        <echo message="Inside makedir"/>
         <mkdir dir="${build.dir}" />
         <mkdir dir="${docs.dir}" />
         <mkdir dir="${dist.dir}" />
@@ -23,13 +27,15 @@
 
     <!-- Compiles the java code (including the usage of library for JUnit -->
     <target name="compile" depends="clean, makedir">
-        <javac srcdir="${src.dir}" destdir="${build.dir}">
+	<echo message="Inside compile"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
         </javac>
 
     </target>
 
     <!-- Creates Javadoc -->
     <target name="docs" depends="compile">
+        	<echo message="Inside docs"/>
         <javadoc packagenames="src" sourcepath="${src.dir}" destdir="${docs.dir}">
             <!-- Define which files / directory should get included, we include all -->
              <fileset dir="${src.dir}">
@@ -40,6 +46,7 @@
 
     <!--Creates the deployable jar file  -->
     <target name="jar" depends="compile">
+    	<echo message="Inside jar"/>
         <jar destfile="${dist.dir}\ApacheAnt.build.test.ant.jar" basedir="${build.dir}">
             <manifest>
                 <attribute name="Main-Class" value="test.Main" />
@@ -48,6 +55,7 @@
     </target>
 
     <target name="main" depends="compile, jar, docs">
+		<echo message="Inside main"/>
         <description>Main target</description>
     </target>
 
